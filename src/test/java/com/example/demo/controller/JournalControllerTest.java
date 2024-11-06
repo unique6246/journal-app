@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -72,7 +71,7 @@ public class JournalControllerTest {
     @Test
     @WithMockUser(username = "testUser", roles = "USER")
     void testDeleteJournal() throws Exception {
-        User user = userRepo.save(new User(null, "testUser", "password", null, null));
+        userRepo.save(new User(null, "testUser", "password", null, null));
         Journal journal = new Journal(null, "Test Title", "Test Description", null);
         journalRepo.save(journal);
 

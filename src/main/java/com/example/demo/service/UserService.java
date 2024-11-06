@@ -1,16 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Journal;
 import com.example.demo.entity.User;
-import com.example.demo.repo.JournalRepo;
 import com.example.demo.repo.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

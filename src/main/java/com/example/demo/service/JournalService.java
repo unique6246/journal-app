@@ -51,7 +51,7 @@ public class JournalService {
 
     @Transactional
     public boolean deleteJournalById(ObjectId id,String username) {
-        boolean removed;
+        boolean removed=false;
         try {
             User user = userService.getUserByUsername(username);
             removed = user.getJournalList().removeIf(x -> x.getId().equals(id));
