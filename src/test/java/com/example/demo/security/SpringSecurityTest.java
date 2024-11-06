@@ -79,7 +79,7 @@ public class SpringSecurityTest {
 
     // "/admin/**" requires "ADMIN" role; a regular user should get forbidden
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     void testAdminEndpointAsUser_ShouldReturnForbidden() throws Exception {
         mockMvc.perform(get("/admin/all-users"))
                 .andExpect(status().isForbidden());
