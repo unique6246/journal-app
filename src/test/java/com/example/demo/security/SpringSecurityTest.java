@@ -28,7 +28,7 @@ public class SpringSecurityTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
+
     @MockBean
     private UserService userService;
 
