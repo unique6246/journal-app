@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public")
 public class PublicController {
 
-
     private final UserService userService;
 
     public PublicController(UserService userService) {
@@ -28,6 +27,5 @@ public class PublicController {
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 }

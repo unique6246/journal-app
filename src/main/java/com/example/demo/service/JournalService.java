@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.entity.Journal;
 import com.example.demo.entity.User;
 import com.example.demo.repo.JournalRepo;
-
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ public class JournalService {
         this.journalRepo = journalRepo;
         this.userService = userService;
     }
-
 
     @Transactional
     public void saveJournal(Journal journal, String username) {
