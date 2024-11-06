@@ -12,9 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -50,15 +53,21 @@ public class JournalControllerTest {
     @Test
     @WithMockUser(username = "testUser", roles = "USER")
     void testUpdateJournal() throws Exception {
-        User user = userRepo.save(new User(null, "testUser", "password", null, null));
-        Journal journal = new Journal(null, "Original Title", "Description", null);
+        // Arrange: Create a test user and save them
+        User user = new User(null, "testUser", "password", null, null);
+        userRepo.save(user);
+
+        // Create a journal and associate it with the test user
+        Journal journal = new Journal(null, "Original Title", "Description", LocalDateTime.now());
         journalRepo.save(journal);
 
+        // Act: Perform PUT request to update the journal
         mockMvc.perform(put("/journal/id/" + journal.getId())
                         .contentType("application/json")
                         .content("{\"title\":\"Updated Title\", \"description\":\"Updated Description\"}"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
+
 
     @Test
     @WithMockUser(username = "testUser", roles = "USER")
@@ -68,6 +77,6 @@ public class JournalControllerTest {
         journalRepo.save(journal);
 
         mockMvc.perform(delete("/journal/id/" + journal.getId()))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 }

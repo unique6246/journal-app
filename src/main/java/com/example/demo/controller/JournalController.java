@@ -82,19 +82,29 @@ public class JournalController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
+        // Find user by username
         User user = userService.getUserByUsername(username);
-        List<Journal> collect = user.getJournalList().stream().filter(x -> x.getId().equals(id)).toList();
 
-        if (!collect.isEmpty()) {
-            Optional<Journal> journalEntity=journalService.getJournalById(id);
-            if(journalEntity.isPresent()) {
-                Journal old = journalEntity.get();
-                old.setTitle(!journal.getTitle().isEmpty() ? journal.getTitle() : old.getTitle());
-                old.setDescription(journal.getDescription() != null && !    journal.getDescription().isEmpty() ? journal.getDescription() : old.getDescription());
-                journalService.saveJournal(old);
-                return new ResponseEntity<>(old, HttpStatus.OK);
-            }
+        // Check if the journal exists in the user's journal list
+        Optional<Journal> journalToUpdate = user.getJournalList().stream()
+                .filter(x -> x.getId().equals(id))
+                .findFirst();
+
+        if (journalToUpdate.isPresent()) {
+            Journal oldJournal = journalToUpdate.get();
+
+            // Update title and description if provided
+            oldJournal.setTitle(!journal.getTitle().isEmpty() ? journal.getTitle() : oldJournal.getTitle());
+            oldJournal.setDescription(journal.getDescription() != null && !journal.getDescription().isEmpty() ? journal.getDescription() : oldJournal.getDescription());
+
+            // Save the updated journal
+            journalService.saveJournal(oldJournal);
+
+            // Return updated journal in response
+            return new ResponseEntity<>(oldJournal, HttpStatus.OK);
         }
+
+        // Return NOT_FOUND if the journal does not exist
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

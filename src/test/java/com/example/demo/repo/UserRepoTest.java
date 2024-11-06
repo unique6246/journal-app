@@ -2,6 +2,7 @@ package com.example.demo.repo;
 
 import com.example.demo.entity.User;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -16,6 +17,14 @@ class UserRepoTest {
 
     @Autowired
     private UserRepo userRepo;
+    @BeforeEach
+    void cleanUpDatabase() {
+        // Delete any existing user with the same username to prevent duplicate key errors
+        User existingUser = userRepo.findByUsername("testUser");
+        if (existingUser != null) {
+            userRepo.delete(existingUser);
+        }
+    }
 
     @Test
     void findByUsername_shouldReturnUserWhenUsernameExists() {
