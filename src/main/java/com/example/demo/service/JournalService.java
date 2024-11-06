@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Journal;
 import com.example.demo.entity.User;
 import com.example.demo.repo.JournalRepo;
-import com.example.demo.repo.UserRepo;
+
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +51,7 @@ public class JournalService {
 
     @Transactional
     public boolean deleteJournalById(ObjectId id,String username) {
-        boolean removed=false;
+        boolean removed;
         try {
             User user = userService.getUserByUsername(username);
             removed = user.getJournalList().removeIf(x -> x.getId().equals(id));
