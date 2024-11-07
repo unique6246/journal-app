@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.enums.Sentiment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -23,7 +24,11 @@ public class Journal {
     private String title;
     private String description;
     private LocalDateTime date;
+    private Sentiment sentiment;
 
     public Journal(String s) {
+    }
+
+    public Journal(ObjectId objectId, String testJournal, String description, LocalDateTime now) {
     }
 }

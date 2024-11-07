@@ -28,11 +28,18 @@ public class User {
     @NonNull
     private String password;
 
+    private String email;
+
+    private boolean sentimentAnalysis;
+
     private List<String> roles;
 
     @DBRef
     private List<Journal> journalList=new ArrayList<>();
 
     public User(String testUser, String password) {
+    }
+
+    public User(Object o, String user2, String password, Object o1, Object o2) {
     }
 }

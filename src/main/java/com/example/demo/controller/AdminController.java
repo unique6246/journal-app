@@ -14,11 +14,9 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final AppCache appCache;
 
-    public AdminController(UserService userService, AppCache appCache) {
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.appCache = appCache;
     }
 
     @GetMapping("/all-users")
@@ -39,13 +37,4 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-
-    @GetMapping("/refresh-cache")
-    public ResponseEntity<?> refreshCache() {
-        appCache.init();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
 }

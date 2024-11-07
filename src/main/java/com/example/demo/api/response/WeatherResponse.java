@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
-public class WeatherResponse {
+public class WeatherResponse implements Serializable {
     @JsonProperty("request")
     private Request request;
 
@@ -21,7 +22,7 @@ public class WeatherResponse {
 
     @Setter
     @Getter
-    public static class Current {
+    public static class Current implements Serializable{
 
         @JsonProperty("observation_time")
         private String observationTime;
@@ -50,7 +51,7 @@ public class WeatherResponse {
 
     @Setter
     @Getter
-    public static class Location {
+    public static class Location implements Serializable{
         @JsonProperty("name")
         private String name;
 
@@ -76,7 +77,7 @@ public class WeatherResponse {
 
     @Setter
     @Getter
-    public static class Request {
+    public static class Request implements Serializable{
         @JsonProperty("type")
         private String type;
 
