@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.api.response.WeatherResponse;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import com.example.demo.service.WeatherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final WeatherService weatherService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, WeatherService weatherService) {
         this.userService = userService;
+        this.weatherService = weatherService;
     }
 
     @PutMapping
@@ -39,6 +43,19 @@ public class UserController {
         String username = authentication.getName();
 
         userService.deleteUserByUsername(username);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> greetings() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse response = weatherService.getWeather("Bellary");
+        String greeting;
+        if (response!=null) {
+            greeting=", Weather feels like "+ response.getCurrent().getWeatherDescriptions().stream().toList().get(0);
+            return new ResponseEntity<>("Hi "+authentication.getName()+greeting, HttpStatus.OK);
+        }
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

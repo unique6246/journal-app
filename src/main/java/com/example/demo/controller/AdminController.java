@@ -1,23 +1,24 @@
 package com.example.demo.controller;
 
+import com.example.demo.cache.AppCache;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
+    private final AppCache appCache;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, AppCache appCache) {
         this.userService = userService;
+        this.appCache = appCache;
     }
 
     @GetMapping("/all-users")
@@ -39,14 +40,11 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") ObjectId id) {
 
-        Optional<User> user=userService.getUserById(id);
-        if(user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/refresh-cache")
+    public ResponseEntity<?> refreshCache() {
+        appCache.init();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
